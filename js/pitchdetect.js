@@ -31,7 +31,7 @@ var isPlaying = false;
 var sourceNode = null;
 var analyser = null;
 var theBuffer = null;
-var DEBUGCANVAS = null;
+// var DEBUGCANVAS = null;
 var mediaStreamSource = null;
 var detectorElem,
   canvasElem,
@@ -156,37 +156,6 @@ function toggleLiveInput() {
     gotStream
   );
 }
-
-// Alterna la reproducción de un archivo de audio
-// function togglePlayback() {
-//   if (isPlaying) {
-//     // Detiene la reproducción y retorna
-//     sourceNode.stop(0);
-//     sourceNode = null;
-//     analyser = null;
-//     isPlaying = false;
-//     if (!window.cancelAnimationFrame)
-//       window.cancelAnimationFrame = window.webkitCancelAnimationFrame;
-//     window.cancelAnimationFrame(rafID);
-//     return "Comenzar";
-//   }
-
-//   sourceNode = audioContext.createBufferSource();
-//   sourceNode.buffer = theBuffer;
-//   sourceNode.loop = true;
-
-//   analyser = audioContext.createAnalyser();
-//   analyser.fftSize = 2048;
-//   sourceNode.connect(analyser);
-//   analyser.connect(audioContext.destination);
-//   sourceNode.start(0);
-//   isPlaying = true;
-//   isLiveInput = false;
-//   // Actualiza continuamente la frecuencia de tono
-//   updatePitch();
-
-//   return "Detener";
-// }
 
 var rafID = null;
 var tracks = null;
@@ -314,31 +283,6 @@ function updatePitch(time) {
   analyser.getFloatTimeDomainData(buf);
   var ac = autoCorrelate(buf, audioContext.sampleRate);
 
-  if (DEBUGCANVAS) {
-    // Esto dibuja la forma de onda actual, útil para depurar
-    waveCanvas.clearRect(0, 0, 512, 256);
-    waveCanvas.strokeStyle = "red";
-    waveCanvas.beginPath();
-    waveCanvas.moveTo(0, 0);
-    waveCanvas.lineTo(0, 256);
-    waveCanvas.moveTo(128, 0);
-    waveCanvas.lineTo(128, 256);
-    waveCanvas.moveTo(256, 0);
-    waveCanvas.lineTo(256, 256);
-    waveCanvas.moveTo(384, 0);
-    waveCanvas.lineTo(384, 256);
-    waveCanvas.moveTo(512, 0);
-    waveCanvas.lineTo(512, 256);
-    waveCanvas.stroke();
-    waveCanvas.strokeStyle = "black";
-    waveCanvas.beginPath();
-    waveCanvas.moveTo(0, buf[0]);
-    for (var i = 1; i < 512; i++) {
-      waveCanvas.lineTo(i, 128 + buf[i] * 128);
-    }
-    waveCanvas.stroke();
-  }
-
   if (ac == -1) {
     detectorElem.className = "vague";
     pitchElem.innerText = "--";
@@ -362,7 +306,66 @@ function updatePitch(time) {
     }
   }
 
+      // Colorear los recuadros según la afinación detectada
+      var boxes = document.querySelectorAll(".box");
+      boxes.forEach(function(box) {
+        box.style.backgroundColor = "transparent"; // Reinicia todos los recuadros a transparente
+      });
+  
+      // if (detune == 0) {
+      //   // Afinación perfecta
+      //   document.getElementById("box6").style.backgroundColor = "green"; // Recuadro 6 verde
+      // } else if (detune < 0) {
+      //   // Afinación baja
+      //   document.getElementById("box5").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
+      // } else if (detune > 0) {
+      //   // Afinación baja
+      //   document.getElementById("box7").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
+      // }
+
+      if (detune == 0) {
+        // Afinación perfecta
+        document.getElementById("box6").style.backgroundColor = "green"; // Cuadro 6 verde
+      } else if (detune < 0 && detune > -10) {
+        // Desviación entre -1 y -10
+        document.getElementById("box5").style.backgroundColor = "#99ff99"; // Cuadro 5 verde claro
+      } else if (detune <= -10 && detune > -20) {
+        // Desviación entre -11 y -20
+        document.getElementById("box4").style.backgroundColor = "#66ff66"; // Cuadro 4 verde más claro
+      } else if (detune <= -20 && detune > -30) {
+        // Desviación entre -21 y -30
+        document.getElementById("box3").style.backgroundColor = "#33ff33"; // Cuadro 3 verde aún más claro
+      } else if (detune <= -30 && detune > -40) {
+        // Desviación entre -31 y -40
+        document.getElementById("box2").style.backgroundColor = "#00ff00"; // Cuadro 2 verde brillante
+      } else if (detune <= -40 && detune > -50) {
+        // Desviación entre -41 y -50
+        document.getElementById("box1").style.backgroundColor = "#00cc00"; // Cuadro 1 verde intenso
+      } else if (detune > 0 && detune < 10) {
+        // Desviación entre 1 y 10
+        document.getElementById("box7").style.backgroundColor = "#99ff99"; // Cuadro 7 verde claro
+      } else if (detune >= 10 && detune < 20) {
+        // Desviación entre 11 y 20
+        document.getElementById("box8").style.backgroundColor = "#66ff66"; // Cuadro 8 verde más claro
+      } else if (detune >= 20 && detune < 30) {
+        // Desviación entre 21 y 30
+        document.getElementById("box9").style.backgroundColor = "#33ff33"; // Cuadro 9 verde aún más claro
+      } else if (detune >= 30 && detune < 40) {
+        // Desviación entre 31 y 40
+        document.getElementById("box10").style.backgroundColor = "#00ff00"; // Cuadro 10 verde brillante
+      } else if (detune > 0) {
+          // Afinación baja
+          document.getElementById("box7").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
+        }
+      // else {
+      //   // Afinación alta
+      //   document.getElementById("box11").style.backgroundColor = "red"; // Cuadro 11 rojo
+      // }
+      
+
   if (!window.requestAnimationFrame)
     window.requestAnimationFrame = window.webkitRequestAnimationFrame;
   rafID = window.requestAnimationFrame(updatePitch);
 }
+
+
