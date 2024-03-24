@@ -1,3 +1,31 @@
+## Función: `noteFromPitch(frequency)`
+
+Esta función calcula el número de nota MIDI más cercano a partir de una frecuencia dada.
+
+### Parámetro:
+- `frequency`: La frecuencia para la cual se desea calcular la nota MIDI. Esta frecuencia representa la frecuencia fundamental de una nota musical.
+
+### Descripción de la función:
+1. **Cálculo del número de nota MIDI**:
+   - Primero, la función calcula un número de nota aproximado utilizando la fórmula:  
+     ```
+     noteNum = 69 + 12 * (log2(frequency / 440))
+     ```
+     - `69`: Representa el número MIDI de la nota A4 (la octava central del piano).
+     - `12`: Representa el número de semitonos en una octava.
+     - `log2()`: Es la función logarítmica en base 2.
+
+2. **Redondeo del número de nota**:
+   - Luego, el número de nota calculado se redondea al número entero más cercano utilizando `Math.round()`.
+
+3. **Cálculo de los centavos (cents)**:
+   - A continuación, se calcula la diferencia en centavos entre la frecuencia dada y la frecuencia correspondiente al número de nota redondeado. Esto se hace mediante la fórmula:
+     ```
+     cents = 1200 * (
+
+
+
+
 ## Función: `frequencyFromNoteNumber(note)`
 
 Esta función calcula la frecuencia de una nota musical a partir de su número de nota MIDI.
