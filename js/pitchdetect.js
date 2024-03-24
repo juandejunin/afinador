@@ -215,6 +215,7 @@ function noteFromPitch(frequency) {
   var noteNumRounded = Math.round(noteNum);
   var cents = 1200 * (Math.log(frequency / (440 * Math.pow(2, (noteNumRounded - 69) / 12))) / Math.log(2));
   var roundedCents = Math.round(cents);
+  console.log(noteNumRounded)
   if (roundedCents < -50) {
       noteNumRounded--;
   } else if (roundedCents >= 50) {
@@ -222,6 +223,8 @@ function noteFromPitch(frequency) {
   }
   return noteNumRounded;
 }
+
+
 
 // // Calcula la frecuencia a partir de un número de nota musical
 function frequencyFromNoteNumber(note) {
