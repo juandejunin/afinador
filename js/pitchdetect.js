@@ -278,6 +278,10 @@ function autoCorrelate(buf, sampleRate) {
 }
 
 // Actualiza continuamente la frecuencia de tono
+
+
+
+// Actualiza continuamente la frecuencia de tono
 function updatePitch(time) {
   var cycles = new Array();
   analyser.getFloatTimeDomainData(buf);
@@ -287,8 +291,6 @@ function updatePitch(time) {
     detectorElem.className = "vague";
     pitchElem.innerText = "--";
     noteElem.innerText = "-";
-    detuneElem.className = "";
-    detuneAmount.innerText = "--";
   } else {
     detectorElem.className = "confident";
     pitch = ac;
@@ -296,32 +298,15 @@ function updatePitch(time) {
     var note = noteFromPitch(pitch);
     noteElem.innerHTML = noteStrings[note % 12];
     var detune = centsOffFromPitch(pitch, note);
-    if (detune == 0) {
-      detuneElem.className = "";
-      detuneAmount.innerHTML = "--";
-    } else {
-      if (detune < 0) detuneElem.className = "flat";
-      else detuneElem.className = "sharp";
-      detuneAmount.innerHTML = Math.abs(detune);
-    }
   }
 
-      // Colorear los recuadros según la afinación detectada
+  // Colorear los recuadros según la afinación detectada
       var boxes = document.querySelectorAll(".box");
       boxes.forEach(function(box) {
         box.style.backgroundColor = "transparent"; // Reinicia todos los recuadros a transparente
       });
   
-      // if (detune == 0) {
-      //   // Afinación perfecta
-      //   document.getElementById("box6").style.backgroundColor = "green"; // Recuadro 6 verde
-      // } else if (detune < 0) {
-      //   // Afinación baja
-      //   document.getElementById("box5").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
-      // } else if (detune > 0) {
-      //   // Afinación baja
-      //   document.getElementById("box7").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
-      // }
+
 
       if (detune == 0) {
         // Afinación perfecta
@@ -353,15 +338,11 @@ function updatePitch(time) {
       } else if (detune >= 30 && detune < 40) {
         // Desviación entre 31 y 40
         document.getElementById("box10").style.backgroundColor = "#00ff00"; // Cuadro 10 verde brillante
-      } else if (detune > 0) {
+      } else if (detune >= 40 && detune < 50) {
           // Afinación baja
-          document.getElementById("box7").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
+          document.getElementById("box11").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
         }
-      // else {
-      //   // Afinación alta
-      //   document.getElementById("box11").style.backgroundColor = "red"; // Cuadro 11 rojo
-      // }
-      
+ 
 
   if (!window.requestAnimationFrame)
     window.requestAnimationFrame = window.webkitRequestAnimationFrame;
