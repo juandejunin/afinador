@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <title>Ritmo y Algoritmo</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/unicons.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+
+    <!-- MAIN STYLE -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+  
+
+    <script src="js/pitchdetect.js"></script>
+
+    <div class="container">
+      <div class="row justify-content-center">
+
+
+
+        <div class="col-12 text-center">
+          <h1 id="note">A</h1>
+        </div>
+
+        <div class="col-12 droptarget">
+          <div id="detector">
+            <div id="graphContainer">
+            <div class="box" id="box1"></div>
+            <div class="box" id="box2"></div>
+            <div class="box" id="box3"></div>
+            <div class="box" id="box4"></div>
+            <div class="box" id="box5"></div>
+            <div class="box" id="box6"></div>
+            <div class="box" id="box7"></div>
+            <div class="box" id="box8"></div>
+            <div class="box" id="box9"></div>
+            <div class="box" id="box10"></div>
+            <div class="box" id="box11"></div>
+     
+          </div>
+
+
+            
+
+            <div class="pitch"><span id="pitch"></span>Hz</div>
+
+            <div id="detune">
+              <span id="detune_amt"></span><span id="flat">&#9837;</span
+              ><span id="sharp">&#9839;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 text-center">
+          <button onclick="startPitchDetect();" class="btn btn-primary">
+            Iniciar
+          </button>
+        </div>
+
+        <div class="col-12 text-center mt-3">
+          <!-- <button onclick="toggleLiveInput()" class="btn btn-secondary">Detectar sonido</button> -->
+          <button onclick="toggleOscillator()" class="btn btn-secondary">
+            Referencia 440hz
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+        <!-- FOOTER -->
+        <footer class="footer py-5">
+            <div class="container">
+                 <div class="row">
+    
+                      <div class="col-lg-12 col-12">                                
+                          <p class="copyright-text text-center">Copyright &copy; 2024</p>
+                          <p class="copyright-text text-center">Designed by <a rel="nofollow" href="#">Juan Amieva</a></p>
+                      </div>
+                      
+                 </div>
+            </div>
+       </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/Headroom.js"></script>
+    <script src="../js/jQuery.headroom.js"></script>
+    <script src="../js/owl.carousel.min.js"></script>
+    <script src="../js/smoothscroll.js"></script>
+    <script src="../js/custom.js"></script>    
+
+
+  </body>
+</html>
