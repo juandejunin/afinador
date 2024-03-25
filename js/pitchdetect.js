@@ -313,19 +313,19 @@ function updatePitch(time) {
         document.getElementById("box6").style.backgroundColor = "green"; // Cuadro 6 verde
       } else if (detune < 0 && detune > -10) {
         // Desviación entre -1 y -10
-        document.getElementById("box5").style.backgroundColor = "#99ff99"; // Cuadro 5 verde claro
+        document.getElementById("box5").style.backgroundColor = "#2ecc71"; // Cuadro 5 verde claro
       } else if (detune <= -10 && detune > -20) {
         // Desviación entre -11 y -20
-        document.getElementById("box4").style.backgroundColor = "#66ff66"; // Cuadro 4 verde más claro
+        document.getElementById("box4").style.backgroundColor = "#7bed9f"; // Cuadro 4 verde más claro
       } else if (detune <= -20 && detune > -30) {
         // Desviación entre -21 y -30
-        document.getElementById("box3").style.backgroundColor = "#33ff33"; // Cuadro 3 verde aún más claro
+        document.getElementById("box3").style.backgroundColor = "#a9dfbf"; // Cuadro 3 verde aún más claro
       } else if (detune <= -30 && detune > -40) {
         // Desviación entre -31 y -40
-        document.getElementById("box2").style.backgroundColor = "#00ff00"; // Cuadro 2 verde brillante
+        document.getElementById("box2").style.backgroundColor = "#d4efdf"; // Cuadro 2 verde brillante
       } else if (detune <= -40 && detune > -50) {
         // Desviación entre -41 y -50
-        document.getElementById("box1").style.backgroundColor = "#00cc00"; // Cuadro 1 verde intenso
+        document.getElementById("box1").style.backgroundColor = "#ff6b4a"; // Cuadro 1 verde intenso
       } else if (detune > 0 && detune < 10) {
         // Desviación entre 1 y 10
         document.getElementById("box7").style.backgroundColor = "#99ff99"; // Cuadro 7 verde claro
