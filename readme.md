@@ -1,3 +1,22 @@
+### Función `window.onload`:
+
+La función `window.onload` se ejecuta cuando la ventana ha terminado de cargar todos sus recursos, incluyendo HTML, CSS, imágenes y scripts. Esto asegura que el código dentro de la función se ejecute después de que todos los elementos de la página estén disponibles y listos para ser manipulados desde JavaScript.
+
+#### Detalles de la Función:
+
+1. **Creación de un Contexto de Audio:**
+   - Utiliza la interfaz `AudioContext` de la Web Audio API para crear un contexto de audio. Este objeto proporciona una manera de representar y manipular audio en la web, permitiendo operaciones avanzadas como carga de archivos de audio y creación de nodos de procesamiento de audio.
+
+2. **Definición del Tamaño Máximo para el Análisis de Frecuencia (`MAX_SIZE`):**
+   - Calcula el tamaño máximo para el análisis de frecuencia, que se utiliza más adelante en el código. Este tamaño se calcula tomando el máximo entre 4 y la tasa de muestreo del contexto de audio dividida por 5000, lo que corresponde a una señal de 5kHz.
+
+3. **Obtención de Referencias a Elementos del DOM:**
+   - Utiliza `document.getElementById()` para obtener referencias a varios elementos del documento HTML, como "detector", "output", "pitch", "note", "detune", y "detune_amt". Estos elementos probablemente representan áreas en la página donde se mostrará información relacionada con el análisis de audio.
+
+
+En resumen, esta función prepara el entorno necesario para realizar análisis de audio en la página web. Configura el contexto de audio, calcula parámetros importantes y obtiene referencias a elementos del DOM que se utilizarán para mostrar información relacionada con el análisis de audio.
+
+
 ## Función: `noteFromPitch(frequency)`
 
 Esta función calcula el número de nota MIDI más cercano a partir de una frecuencia dada.
