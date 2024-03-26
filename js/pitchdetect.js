@@ -43,6 +43,7 @@ var detectorElem,
 
 // La función window.onload se ejecuta cuando se carga completamente el documento HTML
 window.onload = function () {
+  
   // Crea un contexto de audio
   // El objeto AudioContext es parte de la Web Audio API, que es una interfaz de programación
   //  de aplicaciones (API) de JavaScript diseñada para procesar y sintetizar audio en la web.
@@ -65,7 +66,6 @@ window.onload = function () {
   noteElem = document.getElementById("note");
   detuneElem = document.getElementById("detune");
   detuneAmount = document.getElementById("detune_amt");
-
 };
 
 // Inicia la detección de tono desde una fuente de audio en vivo
@@ -89,7 +89,7 @@ function startPitchDetect() {
 
       // Conecta el nodo de entrada al analizador de frecuencia
       analyser = audioContext.createAnalyser();
-      analyser.fftSize = 8192;
+      analyser.fftSize = 16384;
       mediaStreamSource.connect(analyser);
       // Actualiza continuamente la frecuencia de tono
       updatePitch();
@@ -162,7 +162,6 @@ var tracks = null;
 var buflen = 2048;
 var buf = new Float32Array(buflen);
 
-
 var noteStrings = [
   "C",
   "C#",
@@ -175,29 +174,29 @@ var noteStrings = [
   "G#",
   "A",
   "A#",
-  "B"
-];  
-
+  "B",
+];
 
 function noteFromPitch(frequency) {
-  var noteNum = 69 + 12 * Math.log(frequency / 440) / Math.log(2);
+  var noteNum = 69 + (12 * Math.log(frequency / 440)) / Math.log(2);
   var noteNumRounded = Math.round(noteNum);
-  var cents = 1200 * (Math.log(frequency / (440 * Math.pow(2, (noteNumRounded - 69) / 12))) / Math.log(2));
+  var cents =
+    1200 *
+    (Math.log(frequency / (440 * Math.pow(2, (noteNumRounded - 69) / 12))) /
+      Math.log(2));
   var roundedCents = Math.round(cents);
-  console.log(noteNumRounded)
+  console.log(noteNumRounded);
   if (roundedCents < -50) {
-      noteNumRounded--;
+    noteNumRounded--;
   } else if (roundedCents >= 50) {
-      noteNumRounded++;
+    noteNumRounded++;
   }
   return noteNumRounded;
 }
 
-
-
 // // Calcula la frecuencia a partir de un número de nota musical
 function frequencyFromNoteNumber(note) {
-    return 440 * Math.pow(2, (note - 69) / 24);
+  return 440 * Math.pow(2, (note - 69) / 24);
 }
 
 // Calcula la diferencia en centésimas de semitono entre una frecuencia y una nota
@@ -215,10 +214,9 @@ function centsOffFromPitch(frequency, note) {
   return Math.round(quarterToneDifference * 100);
 }
 
-
 // Implementa el algoritmo de autocorrelación para la detección de tono
 // el algoritmo de autocorrelación es una técnica comúnmente utilizada en procesamiento de señales
-//  para determinar la periodicidad de una señal. En el contexto de la detección de tono, 
+//  para determinar la periodicidad de una señal. En el contexto de la detección de tono,
 //  este algoritmo se utiliza para estimar la frecuencia fundamental de una señal de audio,
 //   es decir, la frecuencia principal que define el tono de la señal.
 function autoCorrelate(buf, sampleRate) {
@@ -278,10 +276,6 @@ function autoCorrelate(buf, sampleRate) {
 }
 
 // Actualiza continuamente la frecuencia de tono
-
-
-
-// Actualiza continuamente la frecuencia de tono
 function updatePitch(time) {
   var cycles = new Array();
   analyser.getFloatTimeDomainData(buf);
@@ -301,52 +295,87 @@ function updatePitch(time) {
   }
 
   // Colorear los recuadros según la afinación detectada
-      var boxes = document.querySelectorAll(".box");
-      boxes.forEach(function(box) {
-        box.style.backgroundColor = "transparent"; // Reinicia todos los recuadros a transparente
-      });
-  
+  var boxes = document.querySelectorAll(".box");
+  boxes.forEach(function (box) {
+    box.style.backgroundColor = "transparent"; // Reinicia todos los recuadros a transparente
+  });
 
+  if (detune < 2 && detune > -2) {
+    // Afinación perfecta
+    document.getElementById("box6").style.backgroundColor = "#00FF00"; // Verde
+} else if (detune < 0 && detune > -10) {
+    // Desviación entre -1 y -10
+    document.getElementById("box5").style.backgroundColor = "#33FF00"; // Verde claro
+} else if (detune <= -10 && detune > -20) {
+    // Desviación entre -11 y -20
+    document.getElementById("box4").style.backgroundColor = "#66FF00"; // Verde más claro
+} else if (detune <= -20 && detune > -30) {
+    // Desviación entre -21 y -30
+    document.getElementById("box3").style.backgroundColor = "#99FF00"; // Verde aún más claro
+} else if (detune <= -30 && detune > -40) {
+    // Desviación entre -31 y -40
+    document.getElementById("box2").style.backgroundColor = "#CCFF00"; // Verde brillante
+} else if (detune <= -40 && detune > -50) {
+    // Desviación entre -41 y -50
+    document.getElementById("box1").style.backgroundColor = "#FFFF00"; // Amarillo
+} else if (detune > 0 && detune < 10) {
+    // Desviación entre 1 y 10
+    document.getElementById("box7").style.backgroundColor = "#00FFFF"; // Cyan
+} else if (detune >= 10 && detune < 20) {
+    // Desviación entre 11 y 20
+    document.getElementById("box8").style.backgroundColor = "#00CCFF"; // Azul claro
+} else if (detune >= 20 && detune < 30) {
+    // Desviación entre 21 y 30
+    document.getElementById("box9").style.backgroundColor = "#0099FF"; // Azul más claro
+} else if (detune >= 30 && detune < 40) {
+    // Desviación entre 31 y 40
+    document.getElementById("box10").style.backgroundColor = "#0066FF"; // Azul brillante
+} else if (detune >= 40 && detune < 50) {
+    // Afinación baja
+    document.getElementById("box11").style.backgroundColor = "#FF6600"; // Naranja
+} else {
+    document.getElementById("box11").style.backgroundColor = "#FF0000"; // Rojo
+    document.getElementById("box1").style.backgroundColor = "#FF0000"; // Rojo
+}
 
-      if (detune == 0) {
-        // Afinación perfecta
-        document.getElementById("box6").style.backgroundColor = "green"; // Cuadro 6 verde
-      } else if (detune < 0 && detune > -10) {
-        // Desviación entre -1 y -10
-        document.getElementById("box5").style.backgroundColor = "#2ecc71"; // Cuadro 5 verde claro
-      } else if (detune <= -10 && detune > -20) {
-        // Desviación entre -11 y -20
-        document.getElementById("box4").style.backgroundColor = "#7bed9f"; // Cuadro 4 verde más claro
-      } else if (detune <= -20 && detune > -30) {
-        // Desviación entre -21 y -30
-        document.getElementById("box3").style.backgroundColor = "#a9dfbf"; // Cuadro 3 verde aún más claro
-      } else if (detune <= -30 && detune > -40) {
-        // Desviación entre -31 y -40
-        document.getElementById("box2").style.backgroundColor = "#d4efdf"; // Cuadro 2 verde brillante
-      } else if (detune <= -40 && detune > -50) {
-        // Desviación entre -41 y -50
-        document.getElementById("box1").style.backgroundColor = "#ff6b4a"; // Cuadro 1 verde intenso
-      } else if (detune > 0 && detune < 10) {
-        // Desviación entre 1 y 10
-        document.getElementById("box7").style.backgroundColor = "#99ff99"; // Cuadro 7 verde claro
-      } else if (detune >= 10 && detune < 20) {
-        // Desviación entre 11 y 20
-        document.getElementById("box8").style.backgroundColor = "#66ff66"; // Cuadro 8 verde más claro
-      } else if (detune >= 20 && detune < 30) {
-        // Desviación entre 21 y 30
-        document.getElementById("box9").style.backgroundColor = "#33ff33"; // Cuadro 9 verde aún más claro
-      } else if (detune >= 30 && detune < 40) {
-        // Desviación entre 31 y 40
-        document.getElementById("box10").style.backgroundColor = "#00ff00"; // Cuadro 10 verde brillante
-      } else if (detune >= 40 && detune < 50) {
-          // Afinación baja
-          document.getElementById("box11").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
-        }
- 
+  // if (detune < 2 && detune > -2) {
+  //   // Afinación perfecta
+  //   document.getElementById("box6").style.backgroundColor = "green"; // Cuadro 6 verde
+  // } else if (detune < 0 && detune > -10) {
+  //   // Desviación entre -1 y -10
+  //   document.getElementById("box5").style.backgroundColor = "#2ecc71"; // Cuadro 5 verde claro
+  // } else if (detune <= -10 && detune > -20) {
+  //   // Desviación entre -11 y -20
+  //   document.getElementById("box4").style.backgroundColor = "#7bed9f"; // Cuadro 4 verde más claro
+  // } else if (detune <= -20 && detune > -30) {
+  //   // Desviación entre -21 y -30
+  //   document.getElementById("box3").style.backgroundColor = "#a9dfbf"; // Cuadro 3 verde aún más claro
+  // } else if (detune <= -30 && detune > -40) {
+  //   // Desviación entre -31 y -40
+  //   document.getElementById("box2").style.backgroundColor = "#d4efdf"; // Cuadro 2 verde brillante
+  // } else if (detune <= -40 && detune > -50) {
+  //   // Desviación entre -41 y -50
+  //   document.getElementById("box1").style.backgroundColor = "#ff6b4a"; // Cuadro 1 verde intenso
+  // } else if (detune > 0 && detune < 10) {
+  //   // Desviación entre 1 y 10
+  //   document.getElementById("box7").style.backgroundColor = "#99ff99"; // Cuadro 7 verde claro
+  // } else if (detune >= 10 && detune < 20) {
+  //   // Desviación entre 11 y 20
+  //   document.getElementById("box8").style.backgroundColor = "#66ff66"; // Cuadro 8 verde más claro
+  // } else if (detune >= 20 && detune < 30) {
+  //   // Desviación entre 21 y 30
+  //   document.getElementById("box9").style.backgroundColor = "#33ff33"; // Cuadro 9 verde aún más claro
+  // } else if (detune >= 30 && detune < 40) {
+  //   // Desviación entre 31 y 40
+  //   document.getElementById("box10").style.backgroundColor = "#00ff00"; // Cuadro 10 verde brillante
+  // } else if (detune >= 40 && detune < 50) {
+  //   // Afinación baja
+  //   document.getElementById("box11").style.backgroundColor = "#99ff99"; // Recuadro 1 rojo
+  // } else {
+  //   document.getElementById("box11").style.backgroundColor = "#d4efdf";
+  // }
 
   if (!window.requestAnimationFrame)
     window.requestAnimationFrame = window.webkitRequestAnimationFrame;
   rafID = window.requestAnimationFrame(updatePitch);
 }
-
-
